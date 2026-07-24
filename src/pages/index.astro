@@ -1,0 +1,139 @@
+---
+// Casa Cantú — Homepage (single page, scroll largo)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Fabricacion from '../components/Fabricacion.astro';
+import Productos from '../components/Productos.astro';
+import ValueProps from '../components/ValueProps.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main>
+    <Hero />
+    <About />
+    <Fabricacion />
+    <Productos />
+    <ValueProps />
+  </main>
+  <Footer />
+
+  <!-- GSAP + ScrollTrigger -->
+  <script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Fade Up Animations ---
+    const fadeUpElements = document.querySelectorAll('.gsap-fade-up');
+    fadeUpElements.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            end: 'top 60%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    });
+
+    // --- Staggered fade-up for product cards ---
+    const productCards = document.querySelectorAll('.productos__grid .producto-card');
+    if (productCards.length) {
+      gsap.fromTo(
+        productCards,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.productos__grid',
+            start: 'top 80%',
+          },
+        }
+      );
+    }
+
+    // --- Staggered fade-up for value props ---
+    const valueProps = document.querySelectorAll('.valueprops__grid .valueprop');
+    if (valueProps.length) {
+      gsap.fromTo(
+        valueProps,
+        { opacity: 0, y: 40, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.valueprops__grid',
+            start: 'top 80%',
+          },
+        }
+      );
+    }
+
+    // --- Timeline horizontal scroll ---
+    const timelineEl = document.getElementById('timeline');
+    const timelineFill = document.getElementById('timelineFill');
+    const timelineSteps = document.querySelectorAll('.timeline__step');
+
+    if (timelineEl && timelineFill && timelineSteps.length) {
+      const totalSteps = timelineSteps.length;
+
+      ScrollTrigger.create({
+        trigger: timelineEl,
+        start: 'top 70%',
+        end: 'bottom 30%',
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const fillPct = Math.min(progress * 100, 100);
+          timelineFill.style.width = `${fillPct}%`;
+
+          // Activate steps based on progress
+          const activeStep = Math.floor(progress * totalSteps);
+          timelineSteps.forEach((step, i) => {
+            if (i <= activeStep) {
+              step.classList.add('active');
+            } else {
+              step.classList.remove('active');
+            }
+          });
+        },
+      });
+    }
+
+    // --- Hero content entrance animation ---
+    const heroContent = document.querySelector('.hero__content');
+    if (heroContent) {
+      gsap.fromTo(
+        heroContent,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          delay: 0.3,
+          ease: 'power2.out',
+        }
+      );
+    }
+  </script>
+</BaseLayout>

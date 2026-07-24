@@ -1,0 +1,16 @@
+{
+  "name": "casa-cantu",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@lucide/astro": "^1.26.0",
+    "astro": "^5.7.0",
+    "gsap": "^3.12.0"
+  }
+}

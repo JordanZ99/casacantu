@@ -1,0 +1,102 @@
+---
+import { MessageCircle, ChevronDown } from '@lucide/astro';
+// Hero — cinematic carousel with crossfade
+const slides = [
+  { src: '/hero/hero.png', alt: 'Soluciones industriales Casa Cantú — equipo de suministro' },
+  { src: '/hero/hero2.png', alt: 'Casa Cantú — productos industriales de alta calidad' },
+  { src: '/hero/hero3.png', alt: 'Casa Cantú — banda transportadora industrial' },
+  { src: '/hero/hero4.png', alt: 'Casa Cantú — soluciones hidráulicas y neumáticas' },
+  { src: '/hero/hero5.png', alt: 'Casa Cantú — instalaciones y equipo profesional' },
+];
+---
+
+<section class="hero" id="inicio">
+  <div class="hero__slides">
+    {slides.map((slide, i) => (
+      <div class={`hero__slide${i === 0 ? ' active' : ''}`} data-slide={i}>
+        <!-- TODO: reemplazar con imagen real -->
+        <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+      </div>
+    ))}
+  </div>
+
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content">
+    <h1 class="hero__headline">
+      CASA <span>CANTÚ</span>
+    </h1>
+    <p class="hero__subheadline">Soluciones industriales que impulsan tu productividad</p>
+    <p class="hero__text">Suministro y desarrollo de soluciones industriales para tu empresa</p>
+    <div class="hero__actions">
+      <a
+        href="https://wa.me/528122325286"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--primary btn--large"
+      >
+        <MessageCircle size={20} />
+        Cotizar por WhatsApp
+      </a>
+      <a href="#productos" class="btn btn--outline btn--large">
+        Ver catálogo
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__dots">
+    {slides.map((_, i) => (
+      <button
+        class={`hero__dot${i === 0 ? ' active' : ''}`}
+        data-dot={i}
+        aria-label={`Ir a imagen ${i + 1}`}
+      ></button>
+    ))}
+  </div>
+
+  <div class="hero__scroll-hint">
+    <span>Scroll</span>
+    <ChevronDown size={16} />
+  </div>
+</section>
+
+<script>
+  // Hero carousel with crossfade
+  const slides = document.querySelectorAll('.hero__slide');
+  const dots = document.querySelectorAll('.hero__dot');
+  let current = 0;
+  let interval: ReturnType<typeof setInterval>;
+  const DURATION = 5500;
+
+  function goToSlide(index: number) {
+    if (index === current) return;
+
+    slides[current].style.transition = 'opacity 1.2s ease-in-out';
+    slides[current].style.opacity = '0';
+    slides[current].classList.remove('active');
+
+    slides[index].style.transition = 'opacity 1.2s ease-in-out';
+    slides[index].style.opacity = '1';
+    slides[index].classList.add('active');
+
+    dots[current].classList.remove('active');
+    dots[index].classList.add('active');
+
+    current = index;
+  }
+
+  function nextSlide() {
+    const next = (current + 1) % slides.length;
+    goToSlide(next);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      clearInterval(interval);
+      goToSlide(i);
+      interval = setInterval(nextSlide, DURATION);
+    });
+  });
+
+  interval = setInterval(nextSlide, DURATION);
+</script>

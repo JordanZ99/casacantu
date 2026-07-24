@@ -1,0 +1,50 @@
+---
+import { Clock, User, DollarSign, MessageCircle } from '@lucide/astro';
+// Value Props — ¿Por qué Casa Cantú?
+
+const props = [
+  {
+    title: 'Entregas rápidas',
+    desc: 'En Monterrey y área metropolitana',
+    Icon: Clock,
+  },
+  {
+    title: 'Atención personalizada',
+    desc: 'Asesoría técnica directa con especialistas',
+    Icon: User,
+  },
+  {
+    title: 'Precios competitivos',
+    desc: 'La mejor relación costo-beneficio del mercado',
+    Icon: DollarSign,
+  },
+  {
+    title: 'Cotización directa',
+    desc: 'Cotiza al instante por WhatsApp',
+    Icon: MessageCircle,
+  },
+];
+---
+
+<section class="section section--striped valueprops" id="por-que">
+  <div class="container">
+    <div class="gsap-fade-up">
+      <h2 class="section__title">¿Por qué Casa Cantú?</h2>
+      <p class="section__subtitle">
+        La confianza de cientos de empresas industriales en Monterrey y todo el noreste.
+      </p>
+    </div>
+
+    <div class="valueprops__grid">
+      {props.map((prop) => (
+        <div class="valueprop gsap-fade-up">
+          <div class="valueprop__icon">
+            <prop.Icon size={28} />
+          </div>
+          <h3 class="valueprop__title">{prop.title}</h3>
+          <p class="valueprop__desc">{prop.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,125 @@
+---
+import { Settings, Droplets } from '@lucide/astro';
+// Fabricación a la medida — conveyors + hydraulic equipment + process timeline
+
+const steps = [
+  { num: '01', title: 'Análisis', desc: 'Evaluación de necesidades' },
+  { num: '02', title: 'Diseño', desc: 'Ingeniería personalizada' },
+  { num: '03', title: 'Fabricación', desc: 'Producción en taller' },
+  { num: '04', title: 'Ensamble', desc: 'Montaje profesional' },
+  { num: '05', title: 'Pruebas', desc: 'Control de calidad' },
+  { num: '06', title: 'Entrega', desc: 'Instalación en sitio' },
+];
+
+const conveyors = [
+  { src: '/productos/conveyors/recto.jpg', alt: 'Banda transportadora recta — fabricación Casa Cantú' },
+  { src: '/productos/conveyors/curvo.jpg', alt: 'Banda transportadora curva — fabricación Casa Cantú' },
+  { src: '/productos/conveyors/inclinado.jpg', alt: 'Banda transportadora inclinada — fabricación Casa Cantú' },
+  { src: '/productos/conveyors/especial.jpg', alt: 'Banda transportadora especial — fabricación Casa Cantú' },
+];
+
+const hydraulic = { src: '/productos/bombas-hidraulicas/equipo-completo.jpg', alt: 'Equipo completo de bombas hidráulicas — fabricación Casa Cantú' };
+---
+
+<section class="section section--striped fabricacion" id="fabricacion">
+  <div class="container">
+    <div class="fabricacion__header gsap-fade-up">
+      <h2 class="section__title">Fabricación a la medida</h2>
+      <p class="section__subtitle">
+        Diseñamos y fabricamos conveyors y equipos de bombas hidráulicas a la medida de tus necesidades industriales.
+      </p>
+    </div>
+
+    <!-- Categories -->
+    <div class="fabricacion__categories">
+      <!-- Conveyors -->
+      <div class="fabricacion__category gsap-fade-up">
+        <div class="fabricacion__category-header">
+          <div class="fabricacion__category-icon">
+            <Settings size={24} />
+          </div>
+          <div>
+            <h3 class="fabricacion__category-title">Conveyors</h3>
+            <p class="fabricacion__category-desc">Bandas transportadoras: rectos, curvos, inclinados y especiales</p>
+          </div>
+        </div>
+        <div class="fabricacion__gallery">
+          {conveyors.map((c) => (
+            <div class="fabricacion__gallery-item">
+              <!-- TODO: reemplazar con imagen real -->
+              <div class="img-placeholder">
+                <img
+                  src={c.src}
+                  alt={c.alt}
+                  loading="lazy"
+                  width="400"
+                  height="300"
+                  style="display:none;"
+                  onerror="this.style.display='none'; this.parentElement.classList.add('has-image');"
+                  onload="this.style.display='block'; this.parentElement.classList.add('has-image');"
+                />
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>{c.alt.split('—')[0].trim()}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bombas Hidráulicas -->
+      <div class="fabricacion__category gsap-fade-up">
+        <div class="fabricacion__category-header">
+          <div class="fabricacion__category-icon">
+            <Droplets size={24} />
+          </div>
+          <div>
+            <h3 class="fabricacion__category-title">Bombas Hidráulicas</h3>
+            <p class="fabricacion__category-desc">Diseño, fabricación y ensamble de equipos hidráulicos</p>
+          </div>
+        </div>
+        <div class="fabricacion__gallery">
+          <div class="fabricacion__gallery-item" style="grid-column: 1 / -1;">
+            <!-- TODO: reemplazar con imagen real -->
+            <div class="img-placeholder">
+              <img
+                src={hydraulic.src}
+                alt={hydraulic.alt}
+                loading="lazy"
+                width="800"
+                height="300"
+                style="display:none;"
+                onerror="this.style.display='none'; this.parentElement.classList.add('has-image');"
+                onload="this.style.display='block'; this.parentElement.classList.add('has-image');"
+              />
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Equipo hidráulico completo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline / Process -->
+    <div class="gsap-fade-up">
+      <h3 class="section__title" style="font-size: clamp(1.5rem, 3vw, 2rem);">Nuestro proceso</h3>
+    </div>
+    <div class="timeline gsap-fade-up" id="timeline">
+      <div class="timeline__track">
+        <div class="timeline__line">
+          <div class="timeline__line-fill" id="timelineFill"></div>
+        </div>
+        {steps.map((step, i) => (
+          <div class={`timeline__step${i === 0 ? ' active' : ''}`} data-step={i}>
+            <div class="timeline__step-number">{step.num}</div>
+            <h4 class="timeline__step-title">{step.title}</h4>
+            <p class="timeline__step-desc">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

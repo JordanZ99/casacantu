@@ -1,0 +1,111 @@
+---
+import { MessageCircle } from '@lucide/astro';
+// Header component — sticky nav, glassmorphism, scroll-triggered CTA
+---
+
+<header class="header" id="header">
+  <div class="header__inner">
+    <a href="#inicio" class="header__logo-link" aria-label="Casa Cantú - Inicio">
+      <!-- TODO: reemplazar con imagen real -->
+      <img src="/logo.png" alt="Logo de Casa Cantú - Soluciones Industriales" class="header__logo" />
+    </a>
+
+    <nav class="header__nav" aria-label="Navegación principal">
+      <div class="header__links">
+        <a href="#inicio" class="header__link">Inicio</a>
+        <a href="#nosotros" class="header__link">Nosotros</a>
+        <a href="#fabricacion" class="header__link">Fabricación</a>
+        <a href="#productos" class="header__link">Productos</a>
+        <a href="#contacto" class="header__link">Contacto</a>
+      </div>
+    </nav>
+
+    <!-- Scroll-triggered CTA — appears when hero is not visible -->
+    <a
+      href="https://wa.me/528122325286"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn--primary btn--sm header__cta"
+      id="headerCta"
+    >
+      <MessageCircle size={16} />
+      Cotizar
+    </a>
+
+    <button class="header__toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="header__mobile-menu" id="mobileMenu">
+    <a href="#inicio" class="header__link" data-mobile-link>Inicio</a>
+    <a href="#nosotros" class="header__link" data-mobile-link>Nosotros</a>
+    <a href="#fabricacion" class="header__link" data-mobile-link>Fabricación</a>
+    <a href="#productos" class="header__link" data-mobile-link>Productos</a>
+    <a href="#contacto" class="header__link" data-mobile-link>Contacto</a>
+    <a
+      href="https://wa.me/528122325286"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn--primary btn--large"
+    >
+      <MessageCircle size={20} />
+      Cotizar por WhatsApp
+    </a>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('header');
+  const toggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = document.querySelectorAll('[data-mobile-link]');
+  const headerCta = document.getElementById('headerCta');
+  const heroSection = document.getElementById('inicio');
+
+  // Sticky header background + scroll-triggered CTA
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+
+    // Header background
+    if (scrollY > 50) {
+      header?.classList.add('header--scrolled');
+    } else {
+      header?.classList.remove('header--scrolled');
+    }
+
+    // Scroll-triggered CTA: show when hero is out of view
+    if (heroSection && headerCta) {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      if (heroBottom < 0) {
+        headerCta.classList.add('visible');
+      } else {
+        headerCta.classList.remove('visible');
+      }
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // Mobile menu toggle
+  toggle?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.toggle('active');
+    toggle.classList.toggle('active');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Close mobile menu on link click
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.remove('active');
+      toggle?.classList.remove('active');
+      toggle?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

@@ -1,0 +1,145 @@
+---
+import { Cog, Droplets, Shield, Box, ShieldCheck, ChevronDown } from '@lucide/astro';
+// Productos — 6 product family cards with accordion
+
+const families = [
+  {
+    id: 'transmision',
+    title: 'Transmisión y transporte',
+    Icon: Cog,
+    image: '/productos/transmision-transporte/hero.jpg',
+    imageAlt: 'Productos de transmisión y transporte — Casa Cantú',
+    items: [
+      'Bandas sincrónicas de uretano',
+      'Bandas transportadoras',
+      'Grapas Flexco para bandas',
+      'Cangilones Tapco para banda',
+    ],
+  },
+  {
+    id: 'hidraulica',
+    title: 'Hidráulica y neumática',
+    Icon: Droplets,
+    image: '/productos/hidraulica-neumatica/hero.jpg',
+    imageAlt: 'Productos de hidráulica y neumática — Casa Cantú',
+    items: [
+      'Mangueras y conexiones hidráulicas',
+      'Mangueras y conexiones neumáticas',
+      'Herramientas neumáticas',
+      'Reparación de pistones',
+    ],
+  },
+  {
+    id: 'sellado',
+    title: 'Sellado y protección',
+    Icon: Shield,
+    image: '/productos/sellado-proteccion/hero.jpg',
+    imageAlt: 'Productos de sellado y protección — Casa Cantú',
+    items: [
+      'Hules y empaquetaduras',
+      'Plásticos de ingeniería',
+    ],
+  },
+  {
+    id: 'consumibles',
+    title: 'Consumibles industriales',
+    Icon: Box,
+    image: '/productos/consumibles-industriales/hero.jpg',
+    imageAlt: 'Consumibles industriales — Casa Cantú',
+    items: [
+      'Abrasivos y Scotch-Brite',
+      'Adhesivos industriales',
+      'Adhesivos y cintas industriales',
+    ],
+  },
+  {
+    id: 'seguridad',
+    title: 'Seguridad y ergonomía',
+    Icon: ShieldCheck,
+    image: '/productos/seguridad-ergonomia/hero.jpg',
+    imageAlt: 'Productos de seguridad y ergonomía — Casa Cantú',
+    items: [
+      'Tapetes antifatiga',
+    ],
+  },
+];
+---
+
+<section class="section section--darker section--striped" id="productos">
+  <div class="container">
+    <div class="gsap-fade-up">
+      <h2 class="section__title">Línea de productos</h2>
+      <p class="section__subtitle">
+        Soluciones industriales organizadas por familia para encontrar lo que necesitas.
+      </p>
+    </div>
+
+    <div class="productos__grid">
+      {families.map((family) => (
+        <div class="producto-card gsap-fade-up" data-family={family.id}>
+          <button
+            class="producto-card__header"
+            aria-expanded="false"
+            aria-controls={`body-${family.id}`}
+          >
+            <div class="producto-card__icon">
+              <family.Icon size={22} />
+            </div>
+            <h3 class="producto-card__title">{family.title}</h3>
+            <div class="producto-card__toggle">
+              <ChevronDown size={20} />
+            </div>
+          </button>
+          <div class="producto-card__body" id={`body-${family.id}`}>
+            <div class="producto-card__image">
+              <!-- TODO: reemplazar con imagen real -->
+              <div class="img-placeholder">
+                <img
+                  src={family.image}
+                  alt={family.imageAlt}
+                  loading="lazy"
+                  width="640"
+                  height="360"
+                  style="display:none;"
+                  onerror="this.style.display='none'; this.parentElement.classList.add('has-image');"
+                  onload="this.style.display='block'; this.parentElement.classList.add('has-image');"
+                />
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>{family.title}</span>
+              </div>
+            </div>
+            <ul class="producto-card__list">
+              {family.items.map((item) => (
+                <li class="producto-card__item">{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll('.producto-card');
+
+  cards.forEach((card) => {
+    const header = card.querySelector('.producto-card__header');
+
+    header?.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+
+      cards.forEach((other) => {
+        if (other !== card) {
+          other.classList.remove('open');
+          other.querySelector('.producto-card__header')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      card.classList.toggle('open');
+      header.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+</script>
