@@ -322,14 +322,18 @@ h1, h2, h3, h4, h5, h6 {
   height: var(--header-height);
   display: flex;
   align-items: center;
-  transition: all var(--transition-base);
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: opacity var(--transition-base), transform var(--transition-base), background var(--transition-base), backdrop-filter var(--transition-base), box-shadow var(--transition-base);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-24px);
+  background: transparent;
+  border-bottom: none;
 }
 
 .header--scrolled {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
   background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
@@ -568,7 +572,8 @@ h1, h2, h3, h4, h5, h6 {
 .hero__dots {
   position: absolute;
   bottom: var(--space-lg);
-  left: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
   display: flex;
   gap: 10px;
@@ -1274,7 +1279,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .hero__dots {
-    left: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
     bottom: var(--space-xl);
   }
 

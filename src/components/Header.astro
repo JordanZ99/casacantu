@@ -68,22 +68,17 @@ import { MessageCircle } from '@lucide/astro';
 
   // Sticky header background + scroll-triggered CTA
   const handleScroll = () => {
-    const scrollY = window.scrollY;
-
-    // Header background
-    if (scrollY > 50) {
-      header?.classList.add('header--scrolled');
-    } else {
-      header?.classList.remove('header--scrolled');
-    }
-
-    // Scroll-triggered CTA: show when hero is out of view
-    if (heroSection && headerCta) {
+    // Show header & CTA only when hero is fully scrolled past
+    if (heroSection) {
       const heroBottom = heroSection.getBoundingClientRect().bottom;
-      if (heroBottom < 0) {
-        headerCta.classList.add('visible');
+      const isPastHero = heroBottom < 0;
+
+      if (isPastHero) {
+        header?.classList.add('header--scrolled');
+        headerCta?.classList.add('visible');
       } else {
-        headerCta.classList.remove('visible');
+        header?.classList.remove('header--scrolled');
+        headerCta?.classList.remove('visible');
       }
     }
   };
