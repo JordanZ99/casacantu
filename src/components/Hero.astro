@@ -61,23 +61,44 @@ const slides = [
 </section>
 
 <script>
-  // Hero carousel with crossfade
+  // Hero carousel with crossfade + pan effect
   const slides = document.querySelectorAll('.hero__slide');
   const dots = document.querySelectorAll('.hero__dot');
   let current = 0;
   let interval: ReturnType<typeof setInterval>;
   const DURATION = 5500;
 
+  const POSICION_INICIAL = 'scale(1.2) translateX(0)';
+  const POSICION_FINAL = 'scale(1.2) translateX(-12%)';
+  const TRANSITION_OPACITY = 'opacity 1.2s ease-in-out';
+
+  /** Comienza el paneo suave de izquierda a derecha en la imagen */
+  function iniciarPan(slide: Element) {
+    const img = slide.querySelector('img')!;
+    // Reset a posición inicial sin transición
+    img.style.transition = 'none';
+    img.style.transform = POSICION_INICIAL;
+    // Forzar reflow para que el siguiente cambio sí se anime
+    void img.offsetWidth;
+    // Animar hacia la posición final durante DURATION
+    img.style.transition = `transform ${DURATION}ms ease-in-out`;
+    img.style.transform = POSICION_FINAL;
+  }
+
   function goToSlide(index: number) {
     if (index === current) return;
 
-    slides[current].style.transition = 'opacity 1.2s ease-in-out';
+    // Desvanecer slide actual (sin alterar su transform actual)
+    slides[current].style.transition = TRANSITION_OPACITY;
     slides[current].style.opacity = '0';
     slides[current].classList.remove('active');
 
-    slides[index].style.transition = 'opacity 1.2s ease-in-out';
+    // Mostrar nuevo slide y comenzar su paneo desde posicion_inicial
+    slides[index].style.transition = TRANSITION_OPACITY;
     slides[index].style.opacity = '1';
     slides[index].classList.add('active');
+
+    iniciarPan(slides[index]);
 
     dots[current].classList.remove('active');
     dots[index].classList.add('active');
@@ -89,6 +110,9 @@ const slides = [
     const next = (current + 1) % slides.length;
     goToSlide(next);
   }
+
+  // Iniciar paneo en la primera imagen (ya visible al cargar)
+  iniciarPan(slides[0]);
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
