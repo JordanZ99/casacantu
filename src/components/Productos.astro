@@ -1,5 +1,5 @@
 ---
-import { Cog, Droplets, Shield, Box, ShieldCheck, ChevronDown } from '@lucide/astro';
+import { Cog, Droplets, Shield, Box, ShieldCheck, ChevronDown, ArrowRight } from '@lucide/astro';
 // Productos — 6 product family cards with accordion
 
 const families = [
@@ -119,8 +119,22 @@ const families = [
         </div>
       ))}
     </div>
+
+    <div class="productos__cta gsap-fade-up">
+      <a href="/catalogo" class="btn btn--outline btn--large">
+        Ver catálogo completo
+        <ArrowRight size={18} />
+      </a>
+    </div>
   </div>
 </section>
+
+<style>
+  .productos__cta {
+    text-align: center;
+    margin-top: var(--space-xl);
+  }
+</style>
 
 <script>
   const cards = document.querySelectorAll('.producto-card');
