@@ -642,22 +642,6 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
-/* Decorative large number behind text */
-.about__text::before {
-  content: '01';
-  position: absolute;
-  top: -20px;
-  left: -10px;
-  font-family: var(--font-heading);
-  font-size: clamp(6rem, 12vw, 10rem);
-  font-weight: 700;
-  color: var(--color-accent);
-  opacity: 0.06;
-  line-height: 1;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .about__copy {
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   color: rgba(255, 255, 255, 0.8);
@@ -1235,6 +1219,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
+   RESPONSIVE — Phone (< 900px)
+   ======================================== */
+@media (max-width: 899px) {
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__dots,
+  .hero__scroll-hint {
+    display: none;
+  }
+}
+
+/* ========================================
    RESPONSIVE — Tablet (768px+)
    ======================================== */
 @media (min-width: 768px) {
@@ -1329,9 +1333,4 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 6.5rem;
   }
 
-  .about__text::before {
-    font-size: 12rem;
-    top: -30px;
-    left: -15px;
-  }
 }

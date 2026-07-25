@@ -11,7 +11,7 @@ import {
 
 const categories = [
   {
-    id: 'bandas-sincronicas',
+    id: 'bandas-sincronicas', shortName: 'Sincrónicas',
     title: 'Bandas Sincrónicas de Uretano',
     desc: 'Transmisión de potencia, mangueras y conexiones industriales',
     icon: Cog,
@@ -29,7 +29,7 @@ const categories = [
     ],
   },
   {
-    id: 'bandas-transportadoras',
+    id: 'bandas-transportadoras', shortName: 'Transportadoras',
     title: 'Bandas Transportadoras',
     desc: 'Soluciones para transporte de materiales en toda industria',
     icon: Package,
@@ -44,7 +44,7 @@ const categories = [
     ],
   },
   {
-    id: 'grapas',
+    id: 'grapas', shortName: 'Grapas',
     title: 'Grapas',
     desc: 'Sistemas de grapado para bandas transportadoras',
     icon: Link,
@@ -57,7 +57,7 @@ const categories = [
     ],
   },
   {
-    id: 'cangilones',
+    id: 'cangilones', shortName: 'Cangilones',
     title: 'Cangilones',
     desc: 'Elevadores de descarga centrífuga y más',
     icon: Layers,
@@ -69,7 +69,7 @@ const categories = [
     ],
   },
   {
-    id: 'hules-empaquetaduras',
+    id: 'hules-empaquetaduras', shortName: 'Hules',
     title: 'Hules y Empaquetaduras',
     desc: 'Soluciones de sellado industrial',
     icon: Shield,
@@ -85,7 +85,7 @@ const categories = [
     ],
   },
   {
-    id: 'plasticos-ingenieria',
+    id: 'plasticos-ingenieria', shortName: 'Plásticos',
     title: 'Plásticos de Ingeniería',
     desc: 'Barras, láminas, placas y piezas especializadas',
     icon: Grid3x3,
@@ -113,7 +113,7 @@ const categories = [
     ],
   },
   {
-    id: 'abrasivos',
+    id: 'abrasivos', shortName: 'Abrasivos',
     title: 'Abrasivos y Scotch-Brite',
     desc: 'Lijado, corte, desbaste y acabado de superficies',
     icon: Crosshair,
@@ -133,7 +133,7 @@ const categories = [
     ],
   },
   {
-    id: 'herramientas-neumaticas',
+    id: 'herramientas-neumaticas', shortName: 'Neumáticas',
     title: 'Herramientas Neumáticas',
     desc: 'Equipo abrasivo y de acabado impulsado por aire',
     icon: Wrench,
@@ -147,7 +147,7 @@ const categories = [
     ],
   },
   {
-    id: 'neumatica',
+    id: 'neumatica', shortName: 'Neumática',
     title: 'Neumática',
     desc: 'Conexiones, mangueras, válvulas y accesorios',
     icon: Wind,
@@ -164,7 +164,7 @@ const categories = [
     ],
   },
   {
-    id: 'tapetes-antifatiga',
+    id: 'tapetes-antifatiga', shortName: 'Tapetes',
     title: 'Tapetes Antifatiga',
     desc: 'Ergonomía industrial para reducir lesiones y fatiga',
     icon: User,
@@ -177,7 +177,7 @@ const categories = [
     ],
   },
   {
-    id: 'adhesivos-cintas',
+    id: 'adhesivos-cintas', shortName: 'Adhesivos',
     title: 'Adhesivos y Cintas Industriales',
     desc: 'Soluciones de adhesión, empaque y protección',
     icon: Paperclip,
@@ -213,7 +213,8 @@ const categories = [
 <BaseLayout title="Catálogo de Productos | Casa Cantú" description="Conoce nuestra línea completa de productos industriales: bandas, mangueras, adhesivos, abrasivos, plásticos de ingeniería y más.">
   <Header />
   <main class="catalogo">
-    <!-- Hero section -->
+
+    <!-- ============ HERO ============ -->
     <section class="catalogo__hero">
       <div class="catalogo__hero-bg"></div>
       <div class="catalogo__hero-content">
@@ -244,50 +245,68 @@ const categories = [
       <div class="catalogo__search-results" id="searchResults" aria-live="polite"></div>
     </div>
 
-    <!-- Categories grid -->
-    <section class="catalogo__grid section">
+    <!-- ============ STICKY TABS ============ -->
+    <nav class="catalogo__tabs" id="catalogoTabs">
+      <div class="container">
+        <div class="catalogo__tabs-scroll">
+          {categories.map((cat) => (
+            <a
+              href={`#cat-${cat.id}`}
+              class="catalogo__tab"
+              data-target={cat.id}
+            >
+              {cat.shortName}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+
+    <!-- ============ CATEGORIES ============ -->
+    <section class="catalogo__grid section" id="catalogoGrid">
       <div class="container">
         <div class="catalogo__counter" id="counter">
           {categories.length} categorías
         </div>
-        <div class="catalogo__categories">
-          {categories.map((cat, i) => (
-            <article class="catalogo__card" data-category={cat.id}>
-              <!-- Photo placeholder -->
-              <div class="catalogo__card-image">
-                <div class="img-placeholder">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                  <span>{cat.title}</span>
-                </div>
-                <div class="catalogo__card-icon">
-                  <cat.icon size={20} />
-                </div>
-              </div>
 
-              <!-- Content -->
-              <div class="catalogo__card-body">
-                <h2 class="catalogo__card-title">{cat.title}</h2>
-                <p class="catalogo__card-desc">{cat.desc}</p>
-                <button
-                  class="catalogo__card-toggle"
-                  aria-expanded="false"
-                  aria-controls={`list-${cat.id}`}
-                >
-                  Ver productos ({cat.items.length})
-                  <ChevronDown size={16} />
-                </button>
-                <ul class="catalogo__card-list" id={`list-${cat.id}`}>
+        <div class="catalogo__categories" id="categoriesContainer">
+          {categories.map((cat) => (
+            <article class="cat-section" id={`cat-${cat.id}`} data-category={cat.id}>
+
+              <!-- Category header (clickable toggle) -->
+              <button class="cat-section__header" aria-expanded="false">
+                <div class="cat-section__icon">
+                  <cat.icon size={22} />
+                </div>
+                <div class="cat-section__header-text">
+                  <h2 class="cat-section__title">
+                    {cat.title}
+                    <span class="cat-section__count">{cat.items.length} productos</span>
+                  </h2>
+                  <p class="cat-section__desc">{cat.desc}</p>
+                </div>
+                <ChevronDown size={18} class="cat-section__chevron" />
+              </button>
+
+              <!-- All product cards (hidden, revealed on header click) -->
+              <div class="cat-section__extra">
+                <div class="cat-section__grid">
                   {cat.items.map((item) => (
-                    <li class="catalogo__card-item">
-                      <span class="catalogo__card-bullet"></span>
-                      {item}
-                    </li>
+                    <div class="cat-section__product">
+                      <div class="cat-section__product-img">
+                        <div class="img-placeholder">
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                          </svg>
+                          <span class="cat-section__product-imagen-text">Imagen próximamente</span>
+                        </div>
+                      </div>
+                      <p class="cat-section__product-name">{item}</p>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             </article>
           ))}
@@ -295,7 +314,7 @@ const categories = [
       </div>
     </section>
 
-    <!-- CTA final -->
+    <!-- ============ CTA ============ -->
     <section class="catalogo__cta section section--dark">
       <div class="container">
         <div class="catalogo__cta-box">
@@ -319,9 +338,75 @@ const categories = [
   <Footer />
 
   <script>
-    // --- Search filter ---
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ========================
+    // STICKY TABS — highlight active + scroll to + open
+    // ========================
+    const tabs = document.querySelectorAll('.catalogo__tab');
+    const sections = document.querySelectorAll('.cat-section');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = tab.getAttribute('data-target');
+        const el = document.getElementById(`cat-${target}`);
+        if (el) {
+          const offset = 100;
+          const top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+
+          // Open the target section after scrolling
+          setTimeout(() => {
+            openSectionByTarget(target);
+          }, 400);
+        }
+      });
+    });
+
+    // Highlight active tab on scroll
+    sections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50px',
+        end: 'bottom 50px',
+        onEnter: () => setActiveTab(section.dataset.category),
+        onEnterBack: () => setActiveTab(section.dataset.category),
+      });
+    });
+
+    // Set first tab active by default
+    if (tabs.length) tabs[0].classList.add('active');
+
+    function setActiveTab(id) {
+      tabs.forEach((t) => {
+        t.classList.toggle('active', t.dataset.target === id);
+      });
+    }
+
+    function openSectionByTarget(targetId) {
+      const section = document.querySelector(`.cat-section[data-category="${targetId}"]`);
+      if (!section || section.classList.contains('open')) return;
+
+      const header = section.querySelector('.cat-section__header');
+      const extra = section.querySelector('.cat-section__extra');
+      if (!header || !extra) return;
+
+      // Close any open section first
+      if (currentOpen && currentOpen !== section) {
+        closeSection(currentOpen);
+      }
+
+      const products = extra.querySelectorAll('.cat-section__product');
+      openSection(section, extra, products, header);
+    }
+
+    // ========================
+    // SEARCH FILTER
+    // ========================
     const searchInput = document.getElementById('catalogoSearch');
-    const cards = document.querySelectorAll('.catalogo__card');
     const counter = document.getElementById('counter');
     const searchResults = document.getElementById('searchResults');
 
@@ -329,32 +414,20 @@ const categories = [
       const q = this.value.toLowerCase().trim();
       let visible = 0;
 
-      cards.forEach((card) => {
-        const title = card.querySelector('.catalogo__card-title')?.textContent?.toLowerCase() || '';
-        const items = Array.from(card.querySelectorAll('.catalogo__card-item'));
-        const itemTexts = items.map((el) => el.textContent?.toLowerCase() || '');
-        const allText = [title, ...itemTexts].join(' ');
+      sections.forEach((section) => {
+        const title = section.querySelector('.cat-section__title')?.textContent?.toLowerCase() || '';
+        const allNames = Array.from(section.querySelectorAll('.cat-section__product-name'));
+        const texts = allNames.map((el) => el.textContent?.toLowerCase() || '');
+        const matches = !q || [title, ...texts].some((t) => t.includes(q));
 
-        if (!q || allText.includes(q)) {
-          card.classList.remove('hidden');
-          // Highlight matching items
-          items.forEach((el) => {
-            if (q && el.textContent?.toLowerCase().includes(q)) {
-              el.classList.add('match');
-            } else {
-              el.classList.remove('match');
-            }
-          });
-          visible++;
-        } else {
-          card.classList.add('hidden');
-          items.forEach((el) => el.classList.remove('match'));
-        }
+        section.classList.toggle('hidden', !matches);
+        allNames.forEach((el) => {
+          el.classList.toggle('match', q && el.textContent?.toLowerCase().includes(q));
+        });
+        if (matches) visible++;
       });
 
-      if (counter) {
-        counter.textContent = `${visible} de ${cards.length} categorías`;
-      }
+      if (counter) counter.textContent = `${visible} de ${sections.length} categorías`;
 
       if (searchResults) {
         if (q && visible === 0) {
@@ -367,17 +440,103 @@ const categories = [
       }
     });
 
-    // --- Accordion toggle per card ---
-    cards.forEach((card) => {
-      const toggle = card.querySelector('.catalogo__card-toggle');
-      const list = card.querySelector('.catalogo__card-list');
+    // ========================
+    // ACCORDION — header click toggles, single open at a time, GSAP anim
+    // ========================
+    let currentOpen = null;
 
-      toggle?.addEventListener('click', () => {
-        const isOpen = card.classList.contains('open');
-        card.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(!isOpen));
+    sections.forEach((section) => {
+      const header = section.querySelector('.cat-section__header');
+      const extra = section.querySelector('.cat-section__extra');
+
+      if (!header || !extra) return;
+
+      const products = extra.querySelectorAll('.cat-section__product');
+
+      header.addEventListener('click', () => {
+        const isOpen = section.classList.contains('open');
+
+        if (!isOpen && currentOpen && currentOpen !== section) {
+          closeSection(currentOpen);
+        }
+
+        if (isOpen) {
+          closeSection(section);
+        } else {
+          openSection(section, extra, products, header);
+        }
       });
     });
+
+    function openSection(section, extra, products, headerBtn) {
+      extra.style.display = 'block';
+      extra.style.overflow = 'visible';
+      extra.style.height = 'auto';
+      extra.style.opacity = '1';
+      const fullHeight = extra.offsetHeight;
+      extra.style.height = '0';
+      extra.style.overflow = 'hidden';
+      extra.style.opacity = '0';
+
+      section.classList.add('open');
+      currentOpen = section;
+      headerBtn.setAttribute('aria-expanded', 'true');
+
+      gsap.to(extra, {
+        height: fullHeight,
+        opacity: 1,
+        duration: 0.45,
+        ease: 'power3.out',
+        onComplete: () => {
+          extra.style.height = 'auto';
+          extra.style.overflow = 'visible';
+        },
+      });
+
+      gsap.fromTo(
+        products,
+        { opacity: 0, y: 14 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.35,
+          stagger: 0.04,
+          ease: 'power2.out',
+          delay: 0.1,
+        }
+      );
+    }
+
+    function closeSection(section) {
+      const extra = section.querySelector('.cat-section__extra');
+      const headerBtn = section.querySelector('.cat-section__header');
+      const products = extra?.querySelectorAll('.cat-section__product') || [];
+
+      if (!extra) return;
+
+      section.classList.remove('open');
+      headerBtn?.setAttribute('aria-expanded', 'false');
+      currentOpen = null;
+
+      gsap.to(extra, {
+        height: 0,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          extra.style.display = 'none';
+          extra.style.height = '0';
+          extra.style.overflow = 'hidden';
+        },
+      });
+
+      gsap.to(products, {
+        opacity: 0,
+        y: -8,
+        duration: 0.2,
+        ease: 'power2.in',
+      });
+    }
   </script>
 </BaseLayout>
 
@@ -486,7 +645,7 @@ const categories = [
     box-shadow: 0 0 0 3px hsla(50, 100%, 50%, 0.12);
   }
 
-  /* --- Search results message --- */
+  /* --- Search results --- */
   .catalogo__search-results {
     display: none;
     margin-top: var(--space-md);
@@ -510,6 +669,71 @@ const categories = [
     color: var(--color-accent);
   }
 
+  /* ========================================
+     STICKY TABS
+     ======================================== */
+  .catalogo__tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border-top: 1px solid var(--color-dark-4);
+    border-bottom: 1px solid var(--color-dark-4);
+    overflow: hidden;
+  }
+
+  .catalogo__tabs-scroll {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .catalogo__tabs-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalogo__tab {
+    flex-shrink: 0;
+    padding: 0.7rem 1rem;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    white-space: nowrap;
+    position: relative;
+    border-right: 1px solid var(--color-dark-4);
+  }
+
+  .catalogo__tab:last-child {
+    border-right: none;
+  }
+
+  .catalogo__tab:hover {
+    color: var(--color-white);
+  }
+
+  .catalogo__tab.active {
+    color: var(--color-accent);
+    background: var(--color-accent-faint);
+  }
+
+  .catalogo__tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0.5rem;
+    right: 0.5rem;
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 1px;
+  }
+
   /* --- Counter --- */
   .catalogo__counter {
     font-family: var(--font-heading);
@@ -517,146 +741,215 @@ const categories = [
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-dark-5);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
 
-  /* --- Grid --- */
+  /* ========================================
+     CATEGORY SECTIONS
+     ======================================== */
   .catalogo__categories {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
   }
 
-  /* --- Card --- */
-  .catalogo__card {
-    background: var(--color-dark-2);
-    border: 1px solid var(--color-dark-4);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: border-color var(--transition-base), transform var(--transition-fast);
+  .cat-section {
+    scroll-margin-top: 50px;
+    border-bottom: 1px solid var(--color-dark-4);
   }
 
-  .catalogo__card:hover {
-    border-color: var(--color-dark-5);
+  .cat-section:last-child {
+    border-bottom: none;
   }
 
-  .catalogo__card.hidden {
+  .cat-section.open {
+    padding-bottom: var(--space-md);
+  }
+
+  .cat-section.hidden {
     display: none;
   }
 
-  .catalogo__card-image {
-    position: relative;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-  }
-
-  .catalogo__card-image .img-placeholder {
+  /* --- Header (clickable toggle) --- */
+  .cat-section__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
     width: 100%;
-    height: 100%;
+    padding: var(--space-md) 0;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: opacity var(--transition-fast);
   }
 
-  .catalogo__card-icon {
-    position: absolute;
-    top: var(--space-sm);
-    left: var(--space-sm);
-    width: 44px;
-    height: 44px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
+  .cat-section__header:hover {
+    opacity: 0.85;
+  }
+
+  .cat-section__header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cat-section__icon {
+    width: 48px;
+    height: 48px;
+    background: var(--color-accent-subtle);
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
-
-    :global(svg) {
-      color: var(--color-accent);
-    }
+    flex-shrink: 0;
+    transition: background var(--transition-base);
   }
 
-  .catalogo__card-body {
-    padding: var(--space-md);
+  .cat-section.open .cat-section__icon {
+    background: var(--color-accent);
   }
 
-  .catalogo__card-title {
-    font-size: 1.25rem;
+  .cat-section.open .cat-section__icon :global(svg) {
+    color: var(--color-black);
+  }
+
+  .cat-section__icon :global(svg) {
+    color: var(--color-accent);
+    transition: color var(--transition-base);
+  }
+
+  .cat-section__chevron {
+    color: var(--color-dark-5);
+    flex-shrink: 0;
+    transition: transform var(--transition-base), color var(--transition-base);
+  }
+
+  .cat-section.open .cat-section__chevron {
+    transform: rotate(180deg);
+    color: var(--color-accent);
+  }
+
+  .cat-section__title {
+    font-size: 1.15rem;
     color: var(--color-white);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.1rem;
+    line-height: 1.2;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  .catalogo__card-desc {
-    font-size: 0.88rem;
+  .cat-section__count {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--color-dark-5);
+    letter-spacing: 0.05em;
+    text-transform: none;
+  }
+
+  .cat-section__desc {
+    font-size: 0.82rem;
     color: var(--color-gray);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0.01em;
-    margin-bottom: var(--space-sm);
   }
 
-  .catalogo__card-toggle {
-    display: inline-flex;
+  /* --- Product grid --- */
+  .cat-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .cat-section__product {
+    background: var(--color-dark-2);
+    border: 1px solid var(--color-dark-4);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+    cursor: default;
+  }
+
+  .cat-section__product:hover {
+    transform: scale(1.02);
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.08);
+  }
+
+  .cat-section__product-img {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cat-section__product-img .img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--color-dark-3);
+  }
+
+  .cat-section__product-img .img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid hsla(50, 100%, 50%, 0.15);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cat-section__product-img .img-placeholder svg {
+    opacity: 0.25;
+    color: var(--color-accent);
+  }
+
+  .cat-section__product-imagen-text {
+    font-size: 0.6rem;
     font-family: var(--font-heading);
-    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-accent);
-    padding: 0.4rem 0;
-    transition: color var(--transition-fast);
+    color: var(--color-dark-5);
+    opacity: 0.6;
   }
 
-  .catalogo__card-toggle:hover {
-    color: var(--color-accent-hover);
-  }
-
-  .catalogo__card-toggle svg {
-    transition: transform var(--transition-base);
-  }
-
-  .catalogo__card.open .catalogo__card-toggle svg {
-    transform: rotate(180deg);
-  }
-
-  .catalogo__card-list {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--transition-slow), padding var(--transition-slow);
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .catalogo__card.open .catalogo__card-list {
-    max-height: 900px;
-    padding-top: var(--space-sm);
-  }
-
-  .catalogo__card-item {
+  .cat-section__product-name {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    padding: 0.6rem 0.75rem;
+    line-height: 1.35;
+    min-height: 3.2em;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.35rem 0;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
     transition: color var(--transition-fast);
   }
 
-  .catalogo__card-item.match {
+  .cat-section__product:hover .cat-section__product-name {
+    color: var(--color-white);
+  }
+
+  .cat-section__product-name.match {
     color: var(--color-accent);
   }
 
-  .catalogo__card-bullet {
-    width: 5px;
-    height: 5px;
-    background: var(--color-dark-5);
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: background var(--transition-fast);
+  /* --- Extra products (hidden by default, revealed by GSAP) --- */
+  .cat-section__extra {
+    display: none;
+    overflow: hidden;
   }
 
-  .catalogo__card-item.match .catalogo__card-bullet {
-    background: var(--color-accent);
+  .cat-section__extra .cat-section__product {
+    opacity: 0;
   }
 
   /* --- CTA final --- */
@@ -694,8 +987,35 @@ const categories = [
       padding-top: calc(var(--header-height) + var(--space-3xl));
     }
 
-    .catalogo__categories {
-      grid-template-columns: repeat(2, 1fr);
+    .cat-section__title {
+      font-size: 1.5rem;
+    }
+
+    .cat-section__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .catalogo__tab {
+      padding: 0.8rem 1.25rem;
+      font-size: 0.78rem;
+    }
+  }
+
+  /* ========================================
+     RESPONSIVE — Phone (< 600px)
+     ======================================== */
+  @media (max-width: 599px) {
+    .cat-section__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cat-section__product-img {
+      aspect-ratio: 16/9;
+    }
+
+    .catalogo__tab {
+      padding: 0.6rem 0.85rem;
+      font-size: 0.65rem;
     }
   }
 
@@ -703,17 +1023,13 @@ const categories = [
      RESPONSIVE — Desktop (1024px+)
      ======================================== */
   @media (min-width: 1024px) {
-    .catalogo__categories {
-      grid-template-columns: repeat(3, 1fr);
+    .cat-section__grid {
+      gap: var(--space-md);
     }
-  }
 
-  /* ========================================
-     RESPONSIVE — Large Desktop (1280px+)
-     ======================================== */
-  @media (min-width: 1280px) {
-    .catalogo__categories {
-      grid-template-columns: repeat(3, 1fr);
+    .cat-section__product-name {
+      font-size: 0.88rem;
+      padding: 0.7rem 0.9rem;
     }
   }
 </style>
