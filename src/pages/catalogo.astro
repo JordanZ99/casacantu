@@ -625,6 +625,7 @@ const categories = [
         onComplete: () => {
           extra.style.height = 'auto';
           extra.style.overflow = 'visible';
+          ScrollTrigger.refresh();
         },
       });
 
@@ -662,6 +663,7 @@ const categories = [
           extra.style.display = 'none';
           extra.style.height = '0';
           extra.style.overflow = 'hidden';
+          ScrollTrigger.refresh();
         },
       });
 
