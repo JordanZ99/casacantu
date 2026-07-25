@@ -1,0 +1,719 @@
+---
+// Casa Cantú — Catálogo de productos
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+  Search, ChevronDown, ArrowLeft,
+  Cog, Package, Link, Layers, Shield, Grid3x3,
+  Crosshair, Wrench, Wind, User, Paperclip,
+} from '@lucide/astro';
+
+const categories = [
+  {
+    id: 'bandas-sincronicas',
+    title: 'Bandas Sincrónicas de Uretano',
+    desc: 'Transmisión de potencia, mangueras y conexiones industriales',
+    icon: Cog,
+    items: [
+      'Bandas en "V" para transmisión de potencia',
+      'Bandas sincrónicas para transmisión de potencia',
+      'Mectrol de poliuretano',
+      'Empaques de hule rojo',
+      'Neopreno y tela',
+      'Mangueras industriales para todo uso',
+      'Mangueras hidráulicas de baja, media, alta y extrema presión',
+      'Conexiones y adaptadores en acero y latón',
+      'Coples hidráulicos y neumáticos',
+      'Máquinas portátiles para ensamble de mangueras',
+    ],
+  },
+  {
+    id: 'bandas-transportadoras',
+    title: 'Bandas Transportadoras',
+    desc: 'Soluciones para transporte de materiales en toda industria',
+    icon: Package,
+    items: [
+      'Elevadores para servicio pesado',
+      'Sanitarias PVC para alimentos',
+      'Para materiales calientes',
+      'De monofilamento termoplástico',
+      'Para manejo de paquetes y bultos',
+      'De transmisión de potencia',
+      'Modulares',
+    ],
+  },
+  {
+    id: 'grapas',
+    title: 'Grapas',
+    desc: 'Sistemas de grapado para bandas transportadoras',
+    icon: Link,
+    items: [
+      'Para bandas transportadoras',
+      'Clipper',
+      'Alligator',
+      'Abisagrada con remache',
+      'Engrapadoras para mantenimiento',
+    ],
+  },
+  {
+    id: 'cangilones',
+    title: 'Cangilones',
+    desc: 'Elevadores de descarga centrífuga y más',
+    icon: Layers,
+    items: [
+      'Para elevadores de descarga centrífuga',
+      'Tipo CCHD y AA en poliéster, nylon y uretano',
+      'Perforados para la industria alimenticia',
+      'Tornillos tipo noruego #1, con dientes, elipse #3',
+    ],
+  },
+  {
+    id: 'hules-empaquetaduras',
+    title: 'Hules y Empaquetaduras',
+    desc: 'Soluciones de sellado industrial',
+    icon: Shield,
+    items: [
+      'Empaquetaduras por compresión',
+      'Laminados para juntas cortadas libres de asbesto',
+      'Sellos mecánicos y juntas de expansión',
+      'Protectores de rodamientos',
+      'Retenedores de aceite klozures',
+      'Cintas y telas de fibra de vidrio',
+      'Hule rojo',
+      'Neopreno y con tela',
+    ],
+  },
+  {
+    id: 'plasticos-ingenieria',
+    title: 'Plásticos de Ingeniería',
+    desc: 'Barras, láminas, placas y piezas especializadas',
+    icon: Grid3x3,
+    items: [
+      'Barras sólidas',
+      'Barras huecas',
+      'Piezas moldeadas',
+      'Láminas y placas moldeadas',
+      'Láminas rasuradas',
+      'Extruido barras y tubos',
+      'UHMW-PE',
+      'Nylon',
+      'Polipropileno',
+      'Polietileno / HDPE',
+      'Fenólicos',
+      'Acrílico',
+      'Cortinas Hawaianas',
+      'Policarbonato',
+      'Barras y placas PTFE',
+      'Telas antiadherentes',
+      'Acetal (POM)',
+      'Sanalite',
+      'PVC',
+      'Antiestáticos y especialidades',
+    ],
+  },
+  {
+    id: 'abrasivos',
+    title: 'Abrasivos y Scotch-Brite',
+    desc: 'Lijado, corte, desbaste y acabado de superficies',
+    icon: Crosshair,
+    items: [
+      'Hojas',
+      'Discos',
+      'Bandas y minibandas de lija',
+      'Discos autoadheribles Stikit y Hookit',
+      'Discos de corte y desbaste',
+      'Discos y bandas de acondicionamiento de superficies',
+      'Almohadillas multiflex y Scotch brite',
+      'Discos Roloc',
+      'Bandas y ruedas Scotch brite',
+      'Rollos y bandas microabrasivas',
+      'Accesorios y máquinas orbitales',
+      'Cepillos para lavado de lámina',
+    ],
+  },
+  {
+    id: 'herramientas-neumaticas',
+    title: 'Herramientas Neumáticas',
+    desc: 'Equipo abrasivo y de acabado impulsado por aire',
+    icon: Wrench,
+    items: [
+      'Máquinas abrasivas de banda',
+      'Lijadoras orbitales aleatorias',
+      'Herramientas abrasivas para acabados',
+      'Lijadoras de disco',
+      'Esmeriladoras de matrices',
+      'Accesorios para lijadoras',
+    ],
+  },
+  {
+    id: 'neumatica',
+    title: 'Neumática',
+    desc: 'Conexiones, mangueras, válvulas y accesorios',
+    icon: Wind,
+    items: [
+      'Conexiones',
+      'Mangueras',
+      'Válvulas',
+      'Pistones',
+      'Accesorios de pistones',
+      'Unidades de mantenimiento',
+      'Manifolds',
+      'Controladores de temperatura',
+      'Termopares',
+    ],
+  },
+  {
+    id: 'tapetes-antifatiga',
+    title: 'Tapetes Antifatiga',
+    desc: 'Ergonomía industrial para reducir lesiones y fatiga',
+    icon: User,
+    items: [
+      'Tapetes antifatiga industriales',
+      'Tapetes antiderrapantes',
+      'Tapetes tipo alfombra',
+      'Tapetes retenedor de líquidos y polvo',
+      'Tapete semi antifatiga círculo',
+    ],
+  },
+  {
+    id: 'adhesivos-cintas',
+    title: 'Adhesivos y Cintas Industriales',
+    desc: 'Soluciones de adhesión, empaque y protección',
+    icon: Paperclip,
+    items: [
+      'Adhesivos en spray',
+      'Adhesivos industriales Scotch grip',
+      'Adhesivos jet melt y aplicadores polygun',
+      'Despachadoras de cinta manuales',
+      'Despachadoras de escritorio',
+      'Despachadores de cinta de adhesivo transferible',
+      'Película estirable de alto rendimiento',
+      'Máquinas selladoras de cajas',
+      'Máquinas envolvedoras semiautomáticas',
+      'Papel engomado',
+      'Sobres de envío',
+      'Masking tape',
+      'Cinta filamento',
+      'Cinta empaque',
+      'Cinta de adhesivo transferible',
+      'Cinta para marcaje de áreas',
+      'Cinta sella ductos',
+      'Cinta de aluminio',
+      'Cinta antiderrapante',
+      'Cinta de respaldo polipropileno',
+      'Cinta doble capa VHB transparente',
+      'Cinta de espuma acrílica',
+      'Cinta de espuma de uretano',
+    ],
+  },
+];
+---
+
+<BaseLayout title="Catálogo de Productos | Casa Cantú" description="Conoce nuestra línea completa de productos industriales: bandas, mangueras, adhesivos, abrasivos, plásticos de ingeniería y más.">
+  <Header />
+  <main class="catalogo">
+    <!-- Hero section -->
+    <section class="catalogo__hero">
+      <div class="catalogo__hero-bg"></div>
+      <div class="catalogo__hero-content">
+        <a href="/" class="catalogo__back">
+          <ArrowLeft size={18} />
+          Volver al inicio
+        </a>
+        <h1 class="catalogo__title">Catálogo de productos</h1>
+        <p class="catalogo__subtitle">
+          Línea completa de soluciones industriales para tu empresa.
+          Explora nuestras categorías y encuentra lo que necesitas.
+        </p>
+        <div class="catalogo__search" role="search">
+          <Search size={18} class="catalogo__search-icon" />
+          <input
+            type="text"
+            class="catalogo__search-input"
+            id="catalogoSearch"
+            placeholder="Buscar productos…"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Live search results -->
+    <div class="container">
+      <div class="catalogo__search-results" id="searchResults" aria-live="polite"></div>
+    </div>
+
+    <!-- Categories grid -->
+    <section class="catalogo__grid section">
+      <div class="container">
+        <div class="catalogo__counter" id="counter">
+          {categories.length} categorías
+        </div>
+        <div class="catalogo__categories">
+          {categories.map((cat, i) => (
+            <article class="catalogo__card" data-category={cat.id}>
+              <!-- Photo placeholder -->
+              <div class="catalogo__card-image">
+                <div class="img-placeholder">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>{cat.title}</span>
+                </div>
+                <div class="catalogo__card-icon">
+                  <cat.icon size={20} />
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="catalogo__card-body">
+                <h2 class="catalogo__card-title">{cat.title}</h2>
+                <p class="catalogo__card-desc">{cat.desc}</p>
+                <button
+                  class="catalogo__card-toggle"
+                  aria-expanded="false"
+                  aria-controls={`list-${cat.id}`}
+                >
+                  Ver productos ({cat.items.length})
+                  <ChevronDown size={16} />
+                </button>
+                <ul class="catalogo__card-list" id={`list-${cat.id}`}>
+                  {cat.items.map((item) => (
+                    <li class="catalogo__card-item">
+                      <span class="catalogo__card-bullet"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="catalogo__cta section section--dark">
+      <div class="container">
+        <div class="catalogo__cta-box">
+          <h2 class="catalogo__cta-title">¿No encuentras lo que buscas?</h2>
+          <p class="catalogo__cta-desc">
+          Contáctanos y te asesoramos personalmente. Tenemos soluciones
+          a la medida para tu industria.
+          </p>
+          <a
+            href="https://wa.me/528122325286"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--primary btn--large"
+          >
+            Cotizar ahora
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    // --- Search filter ---
+    const searchInput = document.getElementById('catalogoSearch');
+    const cards = document.querySelectorAll('.catalogo__card');
+    const counter = document.getElementById('counter');
+    const searchResults = document.getElementById('searchResults');
+
+    searchInput?.addEventListener('input', function () {
+      const q = this.value.toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach((card) => {
+        const title = card.querySelector('.catalogo__card-title')?.textContent?.toLowerCase() || '';
+        const items = Array.from(card.querySelectorAll('.catalogo__card-item'));
+        const itemTexts = items.map((el) => el.textContent?.toLowerCase() || '');
+        const allText = [title, ...itemTexts].join(' ');
+
+        if (!q || allText.includes(q)) {
+          card.classList.remove('hidden');
+          // Highlight matching items
+          items.forEach((el) => {
+            if (q && el.textContent?.toLowerCase().includes(q)) {
+              el.classList.add('match');
+            } else {
+              el.classList.remove('match');
+            }
+          });
+          visible++;
+        } else {
+          card.classList.add('hidden');
+          items.forEach((el) => el.classList.remove('match'));
+        }
+      });
+
+      if (counter) {
+        counter.textContent = `${visible} de ${cards.length} categorías`;
+      }
+
+      if (searchResults) {
+        if (q && visible === 0) {
+          searchResults.innerHTML = `<div class="catalogo__search-noresults">No se encontraron productos que coincidan con "<strong>${q}</strong>"</div>`;
+          searchResults.classList.add('visible');
+        } else {
+          searchResults.classList.remove('visible');
+          searchResults.innerHTML = '';
+        }
+      }
+    });
+
+    // --- Accordion toggle per card ---
+    cards.forEach((card) => {
+      const toggle = card.querySelector('.catalogo__card-toggle');
+      const list = card.querySelector('.catalogo__card-list');
+
+      toggle?.addEventListener('click', () => {
+        const isOpen = card.classList.contains('open');
+        card.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  /* ========================================
+     CATÁLOGO PAGE STYLES
+     ======================================== */
+
+  /* --- Hero --- */
+  .catalogo__hero {
+    position: relative;
+    padding: calc(var(--header-height) + var(--space-2xl)) var(--space-md) var(--space-2xl);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+  }
+
+  .catalogo__hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 40%, rgba(255, 215, 0, 0.04) 0%, transparent 70%),
+      linear-gradient(180deg, var(--color-black) 0%, var(--color-dark-1) 100%);
+    z-index: 0;
+  }
+
+  .catalogo__hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .catalogo__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--space-lg);
+    transition: color var(--transition-fast);
+  }
+
+  .catalogo__back:hover {
+    color: var(--color-accent);
+  }
+
+  .catalogo__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--color-white);
+    margin-bottom: var(--space-sm);
+    letter-spacing: 0.04em;
+  }
+
+  .catalogo__subtitle {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    max-width: 540px;
+    margin: 0 auto var(--space-lg);
+    line-height: 1.7;
+  }
+
+  /* --- Search --- */
+  .catalogo__search {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .catalogo__search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-dark-5);
+    pointer-events: none;
+  }
+
+  .catalogo__search-input {
+    width: 100%;
+    padding: 0.9rem 1rem 0.9rem 2.8rem;
+    background: var(--color-dark-2);
+    border: 1px solid var(--color-dark-4);
+    border-radius: var(--radius-md);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    outline: none;
+  }
+
+  .catalogo__search-input::placeholder {
+    color: var(--color-dark-5);
+  }
+
+  .catalogo__search-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px hsla(50, 100%, 50%, 0.12);
+  }
+
+  /* --- Search results message --- */
+  .catalogo__search-results {
+    display: none;
+    margin-top: var(--space-md);
+  }
+
+  .catalogo__search-results.visible {
+    display: block;
+  }
+
+  .catalogo__search-noresults {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    background: var(--color-dark-2);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-dark-4);
+  }
+
+  .catalogo__search-noresults strong {
+    color: var(--color-accent);
+  }
+
+  /* --- Counter --- */
+  .catalogo__counter {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-dark-5);
+    margin-bottom: var(--space-md);
+  }
+
+  /* --- Grid --- */
+  .catalogo__categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  /* --- Card --- */
+  .catalogo__card {
+    background: var(--color-dark-2);
+    border: 1px solid var(--color-dark-4);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--transition-base), transform var(--transition-fast);
+  }
+
+  .catalogo__card:hover {
+    border-color: var(--color-dark-5);
+  }
+
+  .catalogo__card.hidden {
+    display: none;
+  }
+
+  .catalogo__card-image {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+
+  .catalogo__card-image .img-placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .catalogo__card-icon {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    :global(svg) {
+      color: var(--color-accent);
+    }
+  }
+
+  .catalogo__card-body {
+    padding: var(--space-md);
+  }
+
+  .catalogo__card-title {
+    font-size: 1.25rem;
+    color: var(--color-white);
+    margin-bottom: 0.3rem;
+  }
+
+  .catalogo__card-desc {
+    font-size: 0.88rem;
+    color: var(--color-gray);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .catalogo__card-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    padding: 0.4rem 0;
+    transition: color var(--transition-fast);
+  }
+
+  .catalogo__card-toggle:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .catalogo__card-toggle svg {
+    transition: transform var(--transition-base);
+  }
+
+  .catalogo__card.open .catalogo__card-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .catalogo__card-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow), padding var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .catalogo__card.open .catalogo__card-list {
+    max-height: 900px;
+    padding-top: var(--space-sm);
+  }
+
+  .catalogo__card-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color var(--transition-fast);
+  }
+
+  .catalogo__card-item.match {
+    color: var(--color-accent);
+  }
+
+  .catalogo__card-bullet {
+    width: 5px;
+    height: 5px;
+    background: var(--color-dark-5);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background var(--transition-fast);
+  }
+
+  .catalogo__card-item.match .catalogo__card-bullet {
+    background: var(--color-accent);
+  }
+
+  /* --- CTA final --- */
+  .catalogo__cta-box {
+    text-align: center;
+    padding: var(--space-2xl) var(--space-md);
+    background: var(--color-dark-2);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-dark-4);
+  }
+
+  .catalogo__cta-title {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--color-white);
+    margin-bottom: var(--space-sm);
+  }
+
+  .catalogo__cta-desc {
+    font-size: 1rem;
+    color: var(--color-gray);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    max-width: 480px;
+    margin: 0 auto var(--space-lg);
+    line-height: 1.7;
+  }
+
+  /* ========================================
+     RESPONSIVE — Tablet (768px+)
+     ======================================== */
+  @media (min-width: 768px) {
+    .catalogo__hero {
+      min-height: 440px;
+      padding-top: calc(var(--header-height) + var(--space-3xl));
+    }
+
+    .catalogo__categories {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ========================================
+     RESPONSIVE — Desktop (1024px+)
+     ======================================== */
+  @media (min-width: 1024px) {
+    .catalogo__categories {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ========================================
+     RESPONSIVE — Large Desktop (1280px+)
+     ======================================== */
+  @media (min-width: 1280px) {
+    .catalogo__categories {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
