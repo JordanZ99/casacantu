@@ -2,11 +2,31 @@
 import { MessageCircle, ChevronDown } from '@lucide/astro';
 // Hero — cinematic carousel with crossfade
 const slides = [
-  { src: '/hero/hero.png', alt: 'Soluciones industriales Casa Cantú — equipo de suministro' },
-  { src: '/hero/hero2.png', alt: 'Casa Cantú — productos industriales de alta calidad' },
-  { src: '/hero/hero3.png', alt: 'Casa Cantú — banda transportadora industrial' },
-  { src: '/hero/hero4.png', alt: 'Casa Cantú — soluciones hidráulicas y neumáticas' },
-  { src: '/hero/hero5.png', alt: 'Casa Cantú — instalaciones y equipo profesional' },
+  {
+    desktop: '/hero/hero.png',
+    phone: '/hero/hero_phone.png',
+    alt: 'Soluciones industriales Casa Cantú — equipo de suministro',
+  },
+  {
+    desktop: '/hero/hero2.png',
+    phone: '/hero/hero2_phone.png',
+    alt: 'Casa Cantú — productos industriales de alta calidad',
+  },
+  {
+    desktop: '/hero/hero3.png',
+    phone: '/hero/hero3_phone.png',
+    alt: 'Casa Cantú — banda transportadora industrial',
+  },
+  {
+    desktop: '/hero/hero4.png',
+    phone: '/hero/hero4_phone.png',
+    alt: 'Casa Cantú — soluciones hidráulicas y neumáticas',
+  },
+  {
+    desktop: '/hero/hero5.png',
+    phone: '/hero/hero5_phone.png',
+    alt: 'Casa Cantú — instalaciones y equipo profesional',
+  },
 ];
 ---
 
@@ -14,14 +34,22 @@ const slides = [
   <div class="hero__slides">
     {slides.map((slide, i) => (
       <div class={`hero__slide${i === 0 ? ' active' : ''}`} data-slide={i}>
-        <!-- TODO: reemplazar con imagen real -->
-        <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+        <picture>
+          <source
+            srcset={slide.phone}
+            media="(max-width: 767px)"
+          />
+          <img
+            src={slide.desktop}
+            alt={slide.alt}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        </picture>
       </div>
     ))}
   </div>
 
-  <div class="hero__overlay"></div>
-
+  <div class="hero__overlay" aria-hidden="true"></div>
 
   <div class="hero__content">
     <h1 class="hero__headline">
