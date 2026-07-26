@@ -778,14 +778,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .timeline__track {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 0;
   position: relative;
   overflow: hidden;
 }
 
 .timeline__step {
-  flex: 0 0 200px;
   padding: var(--space-md);
   position: relative;
   text-align: center;
@@ -829,7 +829,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .timeline__line {
   position: absolute;
-  top: 24px;
+  top: 48px;
   left: 48px;
   right: 48px;
   height: 2px;
@@ -1320,8 +1320,14 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .timeline__step {
-    flex: 0 0 220px;
+  .timeline__track {
+    gap: var(--space-xs);
+  }
+}
+
+@media (min-width: 600px) {
+  .timeline__track {
+    gap: var(--space-xs);
   }
 }
 
