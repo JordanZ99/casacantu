@@ -1,7 +1,77 @@
 ---
-import { Settings, Droplets } from '@lucide/astro';
-// Fabricación a la medida — conveyors + hydraulic equipment + process timeline
+import { Cog, Droplets, Cylinder, Ruler, ShieldCheck, Factory, Activity, PenTool, Award, Zap, ClipboardCheck, Headphones, Shield, Crosshair, Lock, Layers, Wrench, Check, Circle } from '@lucide/astro';
 
+// Líneas de fabricación
+const lines = [
+  {
+    id: 'conveyors',
+    label: 'Conveyors',
+    Icon: Cog,
+    benefits: [
+      { Icon: Ruler, title: 'Fabricación a la medida', desc: 'Diseñamos el largo, ancho y altura que necesites' },
+      { Icon: ShieldCheck, title: 'Materiales de alta calidad', desc: 'Estructura resistente para trabajo continuo y pesado' },
+      { Icon: Factory, title: 'Ideales para tu industria', desc: 'Industria, empaque, logística, alimentos y más' },
+      { Icon: Activity, title: 'Durabilidad y bajo mantenimiento', desc: 'Equipos confiables que optimizan tu producción' },
+    ],
+    zoneB: {
+      type: 'gallery',
+      heading: 'Variantes',
+      items: ['Rectos', 'Curvos', 'Inclinados', 'Especiales'],
+    },
+  },
+  {
+    id: 'bombas',
+    label: 'Bombas Hidráulicas',
+    Icon: Droplets,
+    benefits: [
+      { Icon: PenTool, title: 'Diseño personalizado', desc: 'Desarrollamos equipos según los requerimientos de tu operación' },
+      { Icon: Award, title: 'Componentes de alta calidad', desc: 'Utilizamos marcas líderes para asegurar máximo rendimiento y durabilidad' },
+      { Icon: Zap, title: 'Alto rendimiento', desc: 'Sistemas eficientes que garantizan potencia, precisión y menor consumo de energía' },
+      { Icon: ClipboardCheck, title: 'Pruebas y calidad', desc: 'Cada equipo es probado para asegurar su correcto funcionamiento y seguridad' },
+      { Icon: Headphones, title: 'Asesoría y soporte técnico', desc: 'Te acompañamos antes, durante y después de tu proyecto' },
+    ],
+    zoneB: {
+      type: 'checklist',
+      heading: 'Incluye',
+      imageLabel: 'Equipo hidráulico completo',
+      items: [
+        'Motor eléctrico', 'Bomba hidráulica', 'Válvulas y manifold', 'Manómetro',
+        'Depósito de aceite', 'Mangueras y conexiones', 'Accesorios',
+      ],
+    },
+    zoneC: {
+      heading: 'Aplicaciones principales',
+      items: ['Prensas hidráulicas', 'Maquinaria industrial', 'Sistemas de elevación', 'Equipos móviles y de transporte', 'Sistemas de producción'],
+    },
+  },
+  {
+    id: 'pistones',
+    label: 'Pistones Industriales',
+    Icon: Cylinder,
+    benefits: [
+      { Icon: Shield, title: 'Alta resistencia', desc: 'Fabricados con materiales de alta calidad para soportar condiciones de trabajo extremas' },
+      { Icon: Crosshair, title: 'Precisión en cada movimiento', desc: 'Diseñados para ofrecer un desempeño consistente, seguro y confiable' },
+      { Icon: Lock, title: 'Sellado confiable', desc: 'Sellos de alta calidad que evitan fugas y garantizan máxima presión' },
+      { Icon: Layers, title: 'Amplia compatibilidad', desc: 'Disponibles para aplicaciones hidráulicas y neumáticas, en distintos tamaños y especificaciones' },
+      { Icon: Wrench, title: 'Fácil instalación', desc: 'Diseño práctico que facilita el montaje y reduce tiempos de paro' },
+      { Icon: ShieldCheck, title: 'Calidad garantizada', desc: 'Productos probados para ofrecer seguridad y larga vida útil' },
+    ],
+    zoneB: {
+      type: 'gallery',
+      heading: 'Tipos',
+      items: [
+        'Pistones hidráulicos de doble efecto', 'Pistones de simple efecto',
+        'Pistones neumáticos', 'Pistones telescópicos', 'Pistones compactos',
+      ],
+    },
+    zoneC: {
+      heading: 'Aplicaciones principales',
+      items: ['Bandas transportadoras', 'Maquinaria pesada', 'Sistemas hidráulicos', 'Equipos móviles', 'Prensas y equipos industriales'],
+    },
+  },
+];
+
+// Timeline steps (sin cambios)
 const steps = [
   { num: '01', title: 'Análisis', desc: 'Evaluación de necesidades' },
   { num: '02', title: 'Diseño', desc: 'Ingeniería personalizada' },
@@ -10,100 +80,123 @@ const steps = [
   { num: '05', title: 'Pruebas', desc: 'Control de calidad' },
   { num: '06', title: 'Entrega', desc: 'Instalación en sitio' },
 ];
-
-const conveyors = [
-  { src: '/productos/conveyors/recto.jpg', alt: 'Banda transportadora recta — fabricación Casa Cantú' },
-  { src: '/productos/conveyors/curvo.jpg', alt: 'Banda transportadora curva — fabricación Casa Cantú' },
-  { src: '/productos/conveyors/inclinado.jpg', alt: 'Banda transportadora inclinada — fabricación Casa Cantú' },
-  { src: '/productos/conveyors/especial.jpg', alt: 'Banda transportadora especial — fabricación Casa Cantú' },
-];
-
-const hydraulic = { src: '/productos/bombas-hidraulicas/equipo-completo.jpg', alt: 'Equipo completo de bombas hidráulicas — fabricación Casa Cantú' };
 ---
 
 <section class="section section--striped fabricacion" id="fabricacion">
   <div class="container">
+    <!-- ========= HEADER ========= -->
     <div class="fabricacion__header gsap-fade-up">
       <h2 class="section__title">Fabricación a la medida</h2>
       <p class="section__subtitle">
-        Diseñamos y fabricamos conveyors y equipos de bombas hidráulicas a la medida de tus necesidades industriales.
+        Diseñamos y fabricamos conveyors, equipos de bombas hidráulicas y pistones
+        industriales a la medida de tus necesidades.
       </p>
     </div>
 
-    <!-- Categories -->
-    <div class="fabricacion__categories">
-      <!-- Conveyors -->
-      <div class="fabricacion__category gsap-fade-up">
-        <div class="fabricacion__category-header">
-          <div class="fabricacion__category-icon">
-            <Settings size={24} />
-          </div>
-          <div>
-            <h3 class="fabricacion__category-title">Conveyors</h3>
-            <p class="fabricacion__category-desc">Bandas transportadoras: rectos, curvos, inclinados y especiales</p>
-          </div>
-        </div>
-        <div class="fabricacion__gallery">
-          {conveyors.map((c) => (
-            <div class="fabricacion__gallery-item">
-              <!-- TODO: reemplazar con imagen real -->
-              <div class="img-placeholder">
-                <img
-                  src={c.src}
-                  alt={c.alt}
-                  loading="lazy"
-                  width="400"
-                  height="300"
-                  style="display:none;"
-                  onerror="this.style.display='none'; this.parentElement.classList.add('has-image');"
-                  onload="this.style.display='block'; this.parentElement.classList.add('has-image');"
-                />
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                </svg>
-                <span>{c.alt.split('—')[0].trim()}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <!-- Bombas Hidráulicas -->
-      <div class="fabricacion__category gsap-fade-up">
-        <div class="fabricacion__category-header">
-          <div class="fabricacion__category-icon">
-            <Droplets size={24} />
-          </div>
-          <div>
-            <h3 class="fabricacion__category-title">Bombas Hidráulicas</h3>
-            <p class="fabricacion__category-desc">Diseño, fabricación y ensamble de equipos hidráulicos</p>
-          </div>
-        </div>
-        <div class="fabricacion__gallery">
-          <div class="fabricacion__gallery-item" style="grid-column: 1 / -1;">
-            <!-- TODO: reemplazar con imagen real -->
-            <div class="img-placeholder">
-              <img
-                src={hydraulic.src}
-                alt={hydraulic.alt}
-                loading="lazy"
-                width="800"
-                height="300"
-                style="display:none;"
-                onerror="this.style.display='none'; this.parentElement.classList.add('has-image');"
-                onload="this.style.display='block'; this.parentElement.classList.add('has-image');"
-              />
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span>Equipo hidráulico completo</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- ========= TABS ========= -->
+    <div class="fab-tabs gsap-fade-up" role="tablist" aria-label="Líneas de fabricación">
+      {lines.map((line) => (
+        <button
+          class="fab-tab"
+          id={`tab-${line.id}`}
+          data-tab={line.id}
+          role="tab"
+          aria-selected={line.id === lines[0].id}
+          aria-controls={`panel-${line.id}`}
+        >
+          <line.Icon size={18} />
+          <span>{line.label}</span>
+        </button>
+      ))}
     </div>
 
-    <!-- Timeline / Process -->
+    <!-- ========= PANELES ========= -->
+    <div class="fab-panels gsap-fade-up">
+      {lines.map((line) => (
+        <div
+          class="fab-panel"
+          id={`panel-${line.id}`}
+          data-panel={line.id}
+          role="tabpanel"
+          aria-labelledby={`tab-${line.id}`}
+        >
+          <!-- ZONA A: Beneficios -->
+          <div class="fab-zone__section">
+            <h3 class="fab-zone__title">Beneficios</h3>
+            <div class="fab-benefits__grid">
+              {line.benefits.map((benefit) => (
+                <div class="fab-benefit">
+                  <div class="fab-benefit__icon">
+                    <benefit.Icon size={22} />
+                  </div>
+                  <h4 class="fab-benefit__title">{benefit.title}</h4>
+                  <p class="fab-benefit__desc">{benefit.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- ZONA B: Variantes / Checklist -->
+          {line.zoneB && line.zoneB.type === 'gallery' && (
+            <div class="fab-zone__section">
+              <h3 class="fab-zone__title">{line.zoneB.heading}</h3>
+              <div class="fab-variants__grid">
+                {line.zoneB.items.map((item) => (
+                  <div class="fab-variant">
+                    <div class="img-placeholder">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      <span class="img-placeholder__text">Imagen próximamente</span>
+                    </div>
+                    <p class="fab-variant__name">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {line.zoneB && line.zoneB.type === 'checklist' && (
+            <div class="fab-zone__section">
+              <h3 class="fab-zone__title">{line.zoneB.heading}</h3>
+              <div class="fab-checklist__image">
+                <div class="img-placeholder">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span class="img-placeholder__text">{line.zoneB.imageLabel}</span>
+                </div>
+              </div>
+              <div class="fab-checklist__grid">
+                {line.zoneB.items.map((item) => (
+                  <div class="fab-checklist__item">
+                    <Check size={16} />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- ZONA C: Aplicaciones -->
+          {line.zoneC && (
+            <div class="fab-zone__section">
+              <h3 class="fab-zone__title">{line.zoneC.heading}</h3>
+              <div class="fab-applications__row">
+                {line.zoneC.items.map((item) => (
+                  <div class="fab-application">
+                    <Circle size={8} />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- ========= TIMELINE (sin cambios) ========= -->
     <div class="gsap-fade-up">
       <h3 class="section__title" style="font-size: clamp(1.5rem, 3vw, 2rem);">Nuestro proceso</h3>
     </div>
@@ -123,3 +216,472 @@ const hydraulic = { src: '/productos/bombas-hidraulicas/equipo-completo.jpg', al
     </div>
   </div>
 </section>
+
+<style>
+/* ========================================
+   FABRICACIÓN — Tabs + Panels
+   ======================================== */
+
+/* --- Tabs bar --- */
+.fab-tabs {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.fab-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-white);
+  background: transparent;
+  border: 1.5px solid var(--color-dark-4);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.fab-tab:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.fab-tab[aria-selected="true"] {
+  background: var(--color-accent);
+  color: var(--color-black);
+  border-color: var(--color-accent);
+}
+
+.fab-tab[aria-selected="true"]:hover {
+  background: var(--color-accent-hover);
+}
+
+.fab-tab svg {
+  flex-shrink: 0;
+}
+
+/* --- Panels container --- */
+.fab-panels {
+  position: relative;
+  min-height: 200px;
+  margin-bottom: var(--space-xl);
+}
+
+/* --- Single panel --- */
+.fab-panel {
+  display: none;
+  opacity: 0;
+}
+
+.fab-panel.active {
+  display: block;
+  opacity: 1;
+}
+
+/* --- Zone section divider --- */
+.fab-zone__section {
+  margin-bottom: var(--space-lg);
+}
+
+.fab-zone__section:last-child {
+  margin-bottom: 0;
+}
+
+.fab-zone__title {
+  font-size: 0.8rem;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+  position: relative;
+  display: inline-block;
+}
+
+.fab-zone__title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  opacity: 0.5;
+  border-radius: 1px;
+}
+
+/* ========================================
+   ZONA A — Benefits grid
+   ======================================== */
+.fab-benefits__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+.fab-benefit {
+  background: var(--color-dark-2);
+  border: 1px solid var(--color-dark-4);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.fab-benefit:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.fab-benefit__icon {
+  width: 44px;
+  height: 44px;
+  background: var(--color-accent-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+  transition: background var(--transition-base);
+}
+
+.fab-benefit__icon svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-accent);
+  transition: color var(--transition-base);
+}
+
+.fab-benefit__title {
+  font-size: 1rem;
+  color: var(--color-white);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.fab-benefit__desc {
+  font-size: 0.82rem;
+  color: var(--color-gray);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+
+/* ========================================
+   ZONA B — Variants gallery
+   ======================================== */
+.fab-variants__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.fab-variant {
+  background: var(--color-dark-2);
+  border: 1px solid var(--color-dark-4);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.fab-variant:hover {
+  border-color: var(--color-accent);
+  transform: scale(1.02);
+}
+
+.fab-variant .img-placeholder {
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--color-dark-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.fab-variant .img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid hsla(50, 100%, 50%, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fab-variant .img-placeholder svg {
+  opacity: 0.25;
+  color: var(--color-accent);
+}
+
+.fab-variant:hover .img-placeholder::before {
+  border-color: var(--color-accent);
+}
+
+.img-placeholder__text {
+  font-size: 0.55rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-dark-5);
+  opacity: 0.6;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.fab-variant__name {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  padding: 0.6rem 0.75rem;
+  line-height: 1.3;
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+.fab-variant:hover .fab-variant__name {
+  color: var(--color-white);
+}
+
+/* ========================================
+   ZONA B — Checklist (Bombas)
+   ======================================== */
+.fab-checklist__image {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-md);
+}
+
+.fab-checklist__image .img-placeholder {
+  aspect-ratio: 16/7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--color-dark-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.fab-checklist__image .img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid hsla(50, 100%, 50%, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fab-checklist__image .img-placeholder svg {
+  opacity: 0.25;
+  color: var(--color-accent);
+}
+
+.fab-checklist__image:hover .img-placeholder::before {
+  border-color: var(--color-accent);
+}
+
+.fab-checklist__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.fab-checklist__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-dark-2);
+  border: 1px solid var(--color-dark-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: border-color var(--transition-fast);
+}
+
+.fab-checklist__item:hover {
+  border-color: var(--color-accent);
+}
+
+.fab-checklist__item svg {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+/* ========================================
+   ZONA C — Applications row
+   ======================================== */
+.fab-applications__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.fab-application {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-dark-2);
+  border: 1px solid var(--color-dark-4);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.fab-application:hover {
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.fab-application svg {
+  flex-shrink: 0;
+  color: var(--color-accent);
+  fill: var(--color-accent);
+}
+
+/* ========================================
+   RESPONSIVE — Tablet (600px+)
+   ======================================== */
+@media (min-width: 600px) {
+  .fab-benefits__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .fab-variants__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fab-checklist__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ========================================
+   RESPONSIVE — Desktop (900px+)
+   ======================================== */
+@media (min-width: 900px) {
+  .fab-benefits__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fab-variants__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .fab-checklist__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const tabs = document.querySelectorAll('.fab-tab');
+  const panels = document.querySelectorAll('.fab-panel');
+
+  // Track state
+  let currentId = null;
+
+  // Set initial
+  const firstTab = tabs[0];
+  const firstPanel = document.querySelector(`[data-panel="${firstTab?.dataset?.tab}"]`);
+  if (firstPanel) {
+    firstPanel.classList.add('active');
+    currentId = firstTab?.dataset?.tab || null;
+  }
+
+  // Switch tab helper
+  function switchTab(tab) {
+    const tabId = tab.dataset.tab;
+    if (tabId === currentId) return;
+
+    const currentPanel = document.querySelector(`[data-panel="${currentId}"]`);
+    const nextPanel = document.querySelector(`[data-panel="${tabId}"]`);
+    if (!currentPanel || !nextPanel) return;
+
+    // Update tabs
+    tabs.forEach((t) => {
+      t.setAttribute('aria-selected', 'false');
+      t.setAttribute('tabindex', '-1');
+    });
+    tab.setAttribute('aria-selected', 'true');
+    tab.setAttribute('tabindex', '0');
+
+    // GSAP timeline: fade out current, swap, fade in next
+    const tl = gsap.timeline({
+      onComplete: () => {
+        currentId = tabId;
+      },
+    });
+
+    tl.to(currentPanel, {
+      opacity: 0,
+      y: -8,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        currentPanel.classList.remove('active');
+        currentPanel.style.display = 'none';
+
+        nextPanel.style.display = 'block';
+        gsap.set(nextPanel, { opacity: 0, y: 10 });
+        nextPanel.classList.add('active');
+      },
+    });
+
+    tl.to(nextPanel, {
+      opacity: 1,
+      y: 0,
+      duration: 0.35,
+      ease: 'power3.out',
+    });
+  }
+
+  // Tab click handlers
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => switchTab(tab));
+  });
+
+  // Keyboard navigation (arrow keys) within tablist
+  const tablist = document.querySelector('.fab-tabs');
+  if (tablist) {
+    tablist.addEventListener('keydown', (e) => {
+      const current = document.querySelector('.fab-tab[aria-selected="true"]');
+      if (!current) return;
+
+      const index = Array.from(tabs).indexOf(current);
+      let nextIndex;
+
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextIndex = (index + 1) % tabs.length;
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        nextIndex = (index - 1 + tabs.length) % tabs.length;
+      } else {
+        return;
+      }
+
+      switchTab(tabs[nextIndex]);
+      tabs[nextIndex].focus();
+    });
+  }
+</script>
