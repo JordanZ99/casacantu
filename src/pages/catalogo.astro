@@ -2,7 +2,6 @@
 // Casa Cantú — Catálogo de productos
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import {
   Search, ChevronDown, ArrowLeft,
   Cog, Package, Link, Layers, Shield, Grid3x3,
@@ -378,8 +377,6 @@ const categories = [
     </div>
   </div>
 
-  <Footer />
-
   <script>
     import { gsap } from 'gsap';
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -490,6 +487,10 @@ const categories = [
     tabs.forEach((tab) => {
       tab.addEventListener('click', (e) => {
         e.preventDefault();
+
+        // Clear search when clicking a category tab
+        resetSearchState();
+
         const target = tab.getAttribute('data-target');
         const el = document.getElementById(`cat-${target}`);
         if (el) {
@@ -547,31 +548,78 @@ const categories = [
 
     searchInput?.addEventListener('input', function () {
       const q = this.value.toLowerCase().trim();
+
+      // Remove previous search classes
+      sections.forEach((s) => {
+        s.classList.remove('search-active');
+        s.querySelectorAll('.cat-section__product').forEach((p) => {
+          p.classList.remove('product-match', 'match');
+        });
+      });
+
+      // If search is empty: reset to initial state
+      if (!q) {
+        sections.forEach((s) => s.classList.remove('hidden'));
+        closeAllSections();
+        if (counter) counter.textContent = `${sections.length} de ${sections.length} categorías`;
+        if (searchResults) {
+          searchResults.classList.remove('visible');
+          searchResults.innerHTML = '';
+        }
+        return;
+      }
+
+      // Close all sections before re-opening matching ones
+      closeAllSections();
+
       let visible = 0;
 
       sections.forEach((section) => {
         const title = section.querySelector('.cat-section__title')?.textContent?.toLowerCase() || '';
-        const allNames = Array.from(section.querySelectorAll('.cat-section__product-name'));
-        const texts = allNames.map((el) => el.textContent?.toLowerCase() || '');
-        const matches = !q || [title, ...texts].some((t) => t.includes(q));
+        const allProducts = Array.from(section.querySelectorAll('.cat-section__product'));
+        const texts = allProducts.map(
+          (p) => p.querySelector('.cat-section__product-name')?.textContent?.toLowerCase() || ''
+        );
+        const matches = [title, ...texts].some((t) => t.includes(q));
 
         section.classList.toggle('hidden', !matches);
-        allNames.forEach((el) => {
-          el.classList.toggle('match', q && el.textContent?.toLowerCase().includes(q));
-        });
-        if (matches) visible++;
+
+        if (matches) {
+          visible++;
+          section.classList.add('search-active');
+
+          // Mark matching products
+          allProducts.forEach((p) => {
+            const name = p.querySelector('.cat-section__product-name')?.textContent?.toLowerCase() || '';
+            if (name.includes(q)) {
+              p.classList.add('product-match');
+              p.querySelector('.cat-section__product-name')?.classList.add('match');
+            }
+          });
+
+          // Open section via GSAP (bypass accordion single-open)
+          openSectionForSearch(section);
+        }
       });
 
       if (counter) counter.textContent = `${visible} de ${sections.length} categorías`;
 
       if (searchResults) {
-        if (q && visible === 0) {
+        if (visible === 0) {
           searchResults.innerHTML = `<div class="catalogo__search-noresults">No se encontraron productos que coincidan con "<strong>${q}</strong>"</div>`;
           searchResults.classList.add('visible');
         } else {
           searchResults.classList.remove('visible');
           searchResults.innerHTML = '';
         }
+      }
+    });
+
+    // When user clears search by pressing Escape or X button on input
+    searchInput?.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        this.value = '';
+        this.dispatchEvent(new Event('input', { bubbles: true }));
       }
     });
 
@@ -589,6 +637,12 @@ const categories = [
       const products = extra.querySelectorAll('.cat-section__product');
 
       header.addEventListener('click', (e) => {
+        // Clear search state when manually toggling a section
+        section.classList.remove('search-active');
+        section.querySelectorAll('.cat-section__product').forEach((p) => {
+          p.classList.remove('product-match', 'match');
+        });
+
         const isOpen = section.classList.contains('open');
 
         if (!isOpen && currentOpen && currentOpen !== section) {
@@ -673,6 +727,95 @@ const categories = [
         duration: 0.2,
         ease: 'power2.in',
       });
+    }
+
+    // ========================
+    // SEARCH — helper: open section without accordion single-open logic
+    // ========================
+    function openSectionForSearch(section) {
+      const extra = section.querySelector('.cat-section__extra');
+      const header = section.querySelector('.cat-section__header');
+      const products = extra?.querySelectorAll('.cat-section__product') || [];
+      if (!extra || !header || section.classList.contains('open')) return;
+
+      extra.style.display = 'block';
+      extra.style.overflow = 'visible';
+      extra.style.height = 'auto';
+      extra.style.opacity = '1';
+      const fullHeight = extra.offsetHeight;
+      extra.style.height = '0';
+      extra.style.overflow = 'hidden';
+      extra.style.opacity = '0';
+
+      section.classList.add('open');
+      header.setAttribute('aria-expanded', 'true');
+
+      gsap.to(extra, {
+        height: fullHeight,
+        opacity: 1,
+        duration: 0.45,
+        ease: 'power3.out',
+        onComplete: () => {
+          extra.style.height = 'auto';
+          extra.style.overflow = 'visible';
+          ScrollTrigger.refresh();
+        },
+      });
+
+      gsap.fromTo(
+        products,
+        { opacity: 0, y: 14 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.35,
+          stagger: 0.04,
+          ease: 'power2.out',
+          delay: 0.1,
+        }
+      );
+    }
+
+    // ========================
+    // SEARCH — helper: force-close all sections (no GSAP)
+    // ========================
+    function closeAllSections() {
+      sections.forEach((s) => {
+        if (s.classList.contains('open')) {
+          const extra = s.querySelector('.cat-section__extra');
+          const header = s.querySelector('.cat-section__header');
+          if (extra) {
+            extra.style.display = 'none';
+            extra.style.height = '0';
+            extra.style.overflow = 'hidden';
+            s.classList.remove('open');
+            header?.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+      currentOpen = null;
+    }
+
+    // ========================
+    // SEARCH — helper: reset all search state
+    // ========================
+    function resetSearchState() {
+      if (searchInput) searchInput.value = '';
+
+      sections.forEach((s) => {
+        s.classList.remove('hidden', 'search-active');
+        s.querySelectorAll('.cat-section__product').forEach((p) => {
+          p.classList.remove('product-match');
+        });
+      });
+
+      closeAllSections();
+
+      if (counter) counter.textContent = `${sections.length} de ${sections.length} categorías`;
+      if (searchResults) {
+        searchResults.classList.remove('visible');
+        searchResults.innerHTML = '';
+      }
     }
   </script>
 </BaseLayout>
@@ -1079,6 +1222,11 @@ const categories = [
     color: var(--color-accent);
   }
 
+  /* Hide non-matching products during search */
+  .cat-section.search-active .cat-section__product:not(.product-match) {
+    display: none;
+  }
+
   /* --- Extra products (hidden by default, revealed by GSAP) --- */
   .cat-section__extra {
     display: none;
@@ -1206,6 +1354,10 @@ const categories = [
   }
 
   /* --- CTA final --- */
+  .catalogo__cta {
+    background: var(--color-dark-2);
+  }
+
   .catalogo__cta-box {
     text-align: center;
     padding: var(--space-2xl) var(--space-md);
@@ -1269,6 +1421,15 @@ const categories = [
     .catalogo__tab {
       padding: 0.6rem 0.85rem;
       font-size: 0.65rem;
+    }
+
+    /* Reducir padding del CTA en móvil */
+    .catalogo__cta {
+      padding: var(--space-xl) 0;
+    }
+
+    .catalogo__cta-box {
+      padding: var(--space-lg) var(--space-md);
     }
   }
 

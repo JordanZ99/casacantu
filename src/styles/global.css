@@ -1219,7 +1219,52 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   RESPONSIVE — Phone (< 900px)
+   RESPONSIVE — Phone (< 768px) — Timeline vertical
+   ======================================== */
+@media (max-width: 767px) {
+  .timeline__track {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline__step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    text-align: left;
+    padding: 0 var(--space-sm) var(--space-lg) 0;
+  }
+
+  .timeline__step-number {
+    margin: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline__step-title {
+    margin-bottom: 0.15rem;
+  }
+
+  .timeline__line {
+    top: 24px;
+    left: 24px;
+    bottom: 0;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .timeline__line-fill {
+    width: 100%;
+    height: 0%;
+    transition: height 0.1s linear;
+  }
+}
+
+/* ========================================
+   RESPONSIVE — Medium Phone (< 900px)
    ======================================== */
 @media (max-width: 899px) {
   .hero__actions {

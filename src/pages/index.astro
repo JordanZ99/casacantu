@@ -90,13 +90,21 @@ import Footer from '../components/Footer.astro';
       );
     }
 
-    // --- Timeline horizontal scroll ---
+    // --- Timeline progress (horizontal en desktop, vertical en móvil) ---
     const timelineEl = document.getElementById('timeline');
     const timelineFill = document.getElementById('timelineFill');
     const timelineSteps = document.querySelectorAll('.timeline__step');
 
     if (timelineEl && timelineFill && timelineSteps.length) {
       const totalSteps = timelineSteps.length;
+
+      function updateTimelineFill(pct) {
+        if (window.innerWidth < 768) {
+          timelineFill.style.height = `${pct}%`;
+        } else {
+          timelineFill.style.width = `${pct}%`;
+        }
+      }
 
       ScrollTrigger.create({
         trigger: timelineEl,
@@ -105,7 +113,7 @@ import Footer from '../components/Footer.astro';
         onUpdate: (self) => {
           const progress = self.progress;
           const fillPct = Math.min(progress * 100, 100);
-          timelineFill.style.width = `${fillPct}%`;
+          updateTimelineFill(fillPct);
 
           // Activate steps based on progress
           const activeStep = Math.floor(progress * totalSteps);
@@ -117,6 +125,17 @@ import Footer from '../components/Footer.astro';
             }
           });
         },
+      });
+
+      // Re-calculate on resize
+      window.addEventListener('resize', () => {
+        // Re-read current fill percentage from the fill element
+        const currentWidth = parseFloat(timelineFill.style.width) || 0;
+        const currentHeight = parseFloat(timelineFill.style.height) || 0;
+        const currentPct = currentWidth || currentHeight;
+        if (currentPct > 0) {
+          updateTimelineFill(currentPct);
+        }
       });
     }
 

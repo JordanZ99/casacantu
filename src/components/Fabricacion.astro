@@ -16,7 +16,12 @@ const lines = [
     zoneB: {
       type: 'gallery',
       heading: 'Variantes',
-      items: ['Rectos', 'Curvos', 'Inclinados', 'Especiales'],
+      items: [
+        { name: 'Rectos', img: '/images/conveyor_recto.png' },
+        { name: 'Curvos', img: '/images/conveyor_curvo.png' },
+        { name: 'Inclinados', img: '/images/conveyor_inclinado.png' },
+        { name: 'Especiales', img: '/images/conveyor_especial.png' }
+      ],
     },
   },
   {
@@ -34,6 +39,7 @@ const lines = [
       type: 'checklist',
       heading: 'Incluye',
       imageLabel: 'Equipo hidráulico completo',
+      img: '/images/bomba_hidraulica.png',
       items: [
         'Motor eléctrico', 'Bomba hidráulica', 'Válvulas y manifold', 'Manómetro',
         'Depósito de aceite', 'Mangueras y conexiones', 'Accesorios',
@@ -60,8 +66,11 @@ const lines = [
       type: 'gallery',
       heading: 'Tipos',
       items: [
-        'Pistones hidráulicos de doble efecto', 'Pistones de simple efecto',
-        'Pistones neumáticos', 'Pistones telescópicos', 'Pistones compactos',
+        { name: 'Pistones hidráulicos de doble efecto', img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Cilindro_de_a%C3%A7%C3%A3o_dupla.jpg' },
+        { name: 'Pistones de simple efecto', img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Hydraulic_cylinder.JPG' },
+        { name: 'Pistones neumáticos', img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Innsbruck-Hansa_Flex-model_hydraulic_cylinder-01ASD.jpg' },
+        { name: 'Pistones telescópicos', img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Telescopic_Hydraulic_cylinder.JPG' },
+        { name: 'Pistones compactos', img: 'https://commons.wikimedia.org/wiki/Special:FilePath/Georgia_hydraulic_cylinder_10.jpg' },
       ],
     },
     zoneC: {
@@ -143,13 +152,8 @@ const steps = [
               <div class="fab-variants__grid">
                 {line.zoneB.items.map((item) => (
                   <div class="fab-variant">
-                    <div class="img-placeholder">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                      </svg>
-                      <span class="img-placeholder__text">Imagen próximamente</span>
-                    </div>
-                    <p class="fab-variant__name">{item}</p>
+                    <img src={item.img} alt={item.name} class="fab-variant__img" loading="lazy" />
+                    <p class="fab-variant__name">{item.name}</p>
                   </div>
                 ))}
               </div>
@@ -160,12 +164,7 @@ const steps = [
             <div class="fab-zone__section">
               <h3 class="fab-zone__title">{line.zoneB.heading}</h3>
               <div class="fab-checklist__image">
-                <div class="img-placeholder">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                  <span class="img-placeholder__text">{line.zoneB.imageLabel}</span>
-                </div>
+                <img src={line.zoneB.img} alt={line.zoneB.imageLabel} class="fab-checklist__img" loading="lazy" />
               </div>
               <div class="fab-checklist__grid">
                 {line.zoneB.items.map((item) => (
@@ -456,6 +455,13 @@ const steps = [
   color: var(--color-white);
 }
 
+.fab-variant__img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
 /* ========================================
    ZONA B — Checklist (Bombas)
    ======================================== */
@@ -493,6 +499,13 @@ const steps = [
 
 .fab-checklist__image:hover .img-placeholder::before {
   border-color: var(--color-accent);
+}
+
+.fab-checklist__img {
+  width: 100%;
+  aspect-ratio: 16/7;
+  object-fit: cover;
+  display: block;
 }
 
 .fab-checklist__grid {
