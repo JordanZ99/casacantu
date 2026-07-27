@@ -505,23 +505,45 @@ const categories = [
       });
     });
 
-    sections.forEach((section) => {
+    // ========================
+    // STICKY TABS — highlight active section via ScrollTrigger
+    // ========================
+    let activeTabId = null;
+
+    sections.forEach((section, index) => {
       ScrollTrigger.create({
         trigger: section,
         start: 'top 50px',
         end: 'bottom 50px',
         onEnter: () => setActiveTab(section.dataset.category),
+        onLeave: () => {
+          // Scrolling down — bottom exited trigger
+          // Advance to the next section's tab immediately
+          const next = sections[index + 1];
+          if (next) {
+            setActiveTab(next.dataset.category);
+          } else {
+            setActiveTab(null);
+          }
+        },
         onEnterBack: () => setActiveTab(section.dataset.category),
+        onLeaveBack: () => {
+          // Scrolling up — top exited trigger
+          // Do nothing — keep the current tab until the
+          // previous section actually enters via onEnterBack
+        },
       });
     });
 
-    if (tabs.length) tabs[0].classList.add('active');
-
     function setActiveTab(id) {
+      activeTabId = id;
       tabs.forEach((t) => {
         t.classList.toggle('active', t.dataset.target === id);
       });
     }
+
+    // Default: first tab active
+    if (tabs.length) tabs[0].classList.add('active');
 
     function openSectionByTarget(targetId) {
       const section = document.querySelector(`.cat-section[data-category="${targetId}"]`);

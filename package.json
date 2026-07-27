@@ -9,8 +9,12 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.1",
     "@lucide/astro": "^1.26.0",
     "astro": "^5.7.0",
-    "gsap": "^3.12.0"
+    "gsap": "^3.12.0",
+    "motion": "^12.42.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   }
 }
